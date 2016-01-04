@@ -8,7 +8,7 @@ header("Content-type: text/html; charset=utf-8");
  * 2、游戏服务端在AnySDK框架请求的参数转发到AnySDK统一登录验证服务http://oauth.anysdk.com/api/User/LoginOauth/；
  * 3、由AnySDK统一登录验证服务处理各个渠道的登录验证并返回渠道服务器返回的原始信息及通用信息如channel标识、用户标识uid等；
  * 4、游戏服务端在接收到AnySDK返回的信息后就可以后续游戏逻辑处理，并将渠道返回的原始信息返回给客户端；
- * 5、详细参见http://docs.anysdk.com/index.php?title=%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81
+ * 5、详细参见http://play.cocos.com/docs/%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81
  */
 error_reporting(E_ALL);
 $login = new Login();
@@ -30,7 +30,7 @@ class Login {
          * anysdk统一登录地址
          * @var string
          */
-        private $_loginCheckUrl = 'http://oauth.anysdk.com/api/User/LoginOauth/';
+        private $_loginCheckUrl = 'http://callback-play.cocos.com/api/User/LoginOauth/';
 
         /**
          * check login
@@ -52,7 +52,9 @@ class Login {
                 //这里建议使用post方式提交请求，避免客户端提交的参数再次被urlencode导致部分渠道token带有特殊符号验证失败
                 $result = $http->post($this->_loginCheckUrl, $params);
                 //@todo在这里处理游戏逻辑，在服务器注册用户信息等
-                echo $result;
+                $json_array = json_decode($result, true);
+                $json_array['ext']['accountID'] = $json_array['common']['uid'];
+                echo json_encode($json_array);
                 //$result如： {"status":"ok","data":{--渠道服务器返回的信息--},"common":{"channel":"渠道标识","uid":"用户标识"}}
 
                 //输出anysdk统一登录返回
