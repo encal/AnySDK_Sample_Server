@@ -4,6 +4,8 @@ var oauth_host = "callback-play.cocos.com";
 var oauth_path = "/api/User/LoginOauth/";
 var resJson = null;
 var checkLogin = function(postData, callback){
+    // 往请求参数增加private_key，这一步要在发起http请求之前，ANYSDK_PRIVATE_KEY由接入人员提供
+    postData = postData.private_key = 'XXX_ANYSDK_PRIVATE_KEY_XXX';
 	var options={
     	host:oauth_host,
     	path:oauth_path,
