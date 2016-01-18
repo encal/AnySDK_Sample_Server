@@ -39,7 +39,9 @@ class Login {
         public function check() {
                 //http请求中所有请求参数数组
                 $params = $_REQUEST;
-                
+                // 往请求参数增加private_key，这一步要在发起http请求之前
+                $params['private_key'] = 'XXX_ANYSDK_PRIVATE_KEY_XXX';
+
                 //检测必要参数
                 if (!$this->parametersIsset($params)) {
                         echo 'parameter not complete';
