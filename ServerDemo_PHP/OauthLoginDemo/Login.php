@@ -51,6 +51,8 @@ class Login {
                 //模拟http请求
                 include_once './classes/HttpHelper.php';
                 $http = new HttpHelper();
+                //请求前，对参数进行 urlencode 操作
+                $params = $http->urlencode($params);
                 //这里建议使用post方式提交请求，避免客户端提交的参数再次被urlencode导致部分渠道token带有特殊符号验证失败
                 $result = $http->post($this->_loginCheckUrl, $params);
                 //@todo在这里处理游戏逻辑，在服务器注册用户信息等
